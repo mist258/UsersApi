@@ -3,7 +3,8 @@ from apps.core.database import Base
 from sqlalchemy.orm import Mapped
 
 
-class UserModel(Base):
+class User(Base):
+    __tablename__ = 'users'
 
     id: Mapped[int] = Column(Integer,
                              primary_key=True,
