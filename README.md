@@ -11,7 +11,7 @@
 
     4) Create a .env file and set the variables according to .env.example.
 
-    5) psql -h [your-host] -p [your-port] -U [your-username] (execute current cmd in console to create db (example: psql -h localhost -p 5432 -U postgres))
+    5) psql -h [your-host] -p [your-port] -U [your-username] (#execute current cmd in console to create db (example: psql -h localhost -p 5432 -U postgres))
 
     6) CREATE DATABASE [your-db-name];
 
