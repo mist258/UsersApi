@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel,EmailStr
 
 
 class UserCreate(BaseModel):
@@ -9,10 +9,14 @@ class UserCreate(BaseModel):
 class UserRead(BaseModel):
     id: int
     name: str
-    email: str
+    email: EmailStr
     is_active: bool
 
     class Config:
         from_attributes = True
+
+
+class TempEmailModel(BaseModel):
+    email: EmailStr
 
 

@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from apps.core.dependencies import get_session
-from .schemas import UserCreate, UserRead
+from .schemas import UserCreate, UserRead, TempEmailModel
 from .services import (create_user,
                        get_all_users,
                        update_user_by_id,
                        get_user_by_id,
                        delete_user_by_id)
+from pydantic import ValidationError
+
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -15,6 +17,14 @@ async def create_new_user(
     user: UserCreate,
     db: AsyncSession = Depends(get_session)
 ):
+    try:
+        TempEmailModel(email=user.email)
+    except ValidationError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid email: {user.email}"
+        )
+
     return await create_user(db, user)
 
 
@@ -38,6 +48,15 @@ async def update_user(
         user_id: int,
         user: UserCreate,
         db: AsyncSession = Depends(get_session)):
+
+    try:
+        TempEmailModel(email=user.email)
+    except ValidationError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid email: {user.email}"
+        )
+
     user = await update_user_by_id( db,user_id, user, )
 
     if user is None:
